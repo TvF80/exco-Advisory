@@ -33,7 +33,7 @@ export default function Services() {
           </motion.h2>
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
             transition={{ delay: 0.2 }} className="text-[#0A2E1E]/40 text-sm mt-4">
-            Kliknij usługę, aby rozwinąć szczegóły.
+            Kliknij usługę, aby zobaczyć pełny zakres.
           </motion.p>
         </div>
 
@@ -46,13 +46,14 @@ export default function Services() {
             return (
               <motion.div
                 key={svc.id}
+                layout
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-                whileHover={{ scale: isOpen ? 1 : 1.025, y: isOpen ? 0 : -5 }}
+                transition={{ layout: { duration: 0.3, ease: 'easeInOut' }, duration: 0.5, delay: i * 0.07 }}
+                whileHover={!isOpen ? { scale: 1.025, y: -5 } : {}}
                 onClick={() => setExpanded(isOpen ? null : svc.id)}
-                className={`rounded-xl border cursor-pointer overflow-hidden transition-all duration-300 ${
+                className={`rounded-xl border cursor-pointer transition-colors duration-300 ${
                   isOpen
                     ? 'border-[#C9A84C]/50 bg-[#0A2E1E] shadow-2xl shadow-[#0A2E1E]/30'
                     : 'border-[#0A2E1E]/8 bg-white hover:border-[#C9A84C]/50 hover:shadow-xl hover:shadow-[#0A2E1E]/8'
@@ -61,15 +62,15 @@ export default function Services() {
                 {/* Always-visible top */}
                 <div className="p-7">
                   <div className="flex items-start justify-between mb-5">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
                       isOpen ? 'bg-[#C9A84C]/20' : 'bg-[#0A2E1E]/6'
                     }`}>
-                      <Icon size={22} className={isOpen ? 'text-[#C9A84C]' : 'text-[#0A2E1E]'} />
+                      <Icon size={22} className={`transition-colors duration-300 ${isOpen ? 'text-[#C9A84C]' : 'text-[#0A2E1E]'}`} />
                     </div>
                     <motion.div
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.25 }}
-                      className={`mt-1 ${isOpen ? 'text-[#C9A84C]/50' : 'text-[#0A2E1E]/20'}`}
+                      className={`mt-1 transition-colors duration-300 ${isOpen ? 'text-[#C9A84C]/60' : 'text-[#0A2E1E]/20'}`}
                     >
                       <ChevronDown size={16} />
                     </motion.div>
@@ -84,44 +85,46 @@ export default function Services() {
                   }`}>{svc.shortDesc}</p>
                 </div>
 
-                {/* Expandable detail */}
+                {/* Expandable detail — layout-driven, no height animation bug */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: 'easeInOut' }}
-                      className="overflow-hidden"
+                      key="detail"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.22 }}
                     >
-                      <div className="px-7 pb-7 border-t border-white/10 pt-5">
-                        <p className="text-white/65 text-sm leading-relaxed mb-5">
-                          {svc.description}
-                        </p>
-                        <p className="text-[#C9A84C]/70 text-[10px] font-semibold tracking-widest uppercase mb-3">
-                          Zakres usługi
-                        </p>
-                        <ul className="space-y-2 mb-6">
-                          {svc.scope.map((item, j) => (
-                            <motion.li
-                              key={j}
-                              initial={{ opacity: 0, x: -8 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: j * 0.05 }}
-                              className="flex items-start gap-2.5"
-                            >
-                              <CheckCircle2 size={13} className="text-[#C9A84C] mt-0.5 shrink-0" />
-                              <span className="text-white/65 text-xs leading-relaxed">{item}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                        <a
-                          href="#kontakt"
-                          onClick={e => e.stopPropagation()}
-                          className="block text-center px-5 py-2.5 bg-[#C9A84C] text-[#0A2E1E] font-semibold rounded-sm hover:bg-[#E2C77A] transition-colors text-sm"
-                        >
-                          Zapytaj o tę usługę
-                        </a>
+                      <div className="px-7 pb-7 pt-0">
+                        <div className="border-t border-white/10 pt-5">
+                          <p className="text-white/65 text-sm leading-relaxed mb-5">
+                            {svc.description}
+                          </p>
+                          <p className="text-[#C9A84C]/70 text-[10px] font-semibold tracking-widest uppercase mb-3">
+                            Zakres usługi
+                          </p>
+                          <ul className="space-y-2 mb-6">
+                            {svc.scope.map((item, j) => (
+                              <motion.li
+                                key={j}
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.1 + j * 0.05 }}
+                                className="flex items-start gap-2.5"
+                              >
+                                <CheckCircle2 size={13} className="text-[#C9A84C] mt-0.5 shrink-0" />
+                                <span className="text-white/65 text-xs leading-relaxed">{item}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                          <a
+                            href="#kontakt"
+                            onClick={e => e.stopPropagation()}
+                            className="block text-center px-5 py-2.5 bg-[#C9A84C] text-[#0A2E1E] font-semibold rounded-sm hover:bg-[#E2C77A] transition-colors text-sm"
+                          >
+                            Zapytaj o tę usługę
+                          </a>
+                        </div>
                       </div>
                     </motion.div>
                   )}

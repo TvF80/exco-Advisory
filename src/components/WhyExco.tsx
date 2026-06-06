@@ -1,31 +1,53 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Scale, Calculator, FileSearch, Building2, ChevronDown } from 'lucide-react';
+import { Scale, Calculator, FileSearch, Building2, ChevronDown, ExternalLink } from 'lucide-react';
 
-const pillars = [
+interface Pillar {
+  icon: React.FC<{ size?: number; className?: string }>;
+  title: string;
+  desc: string;
+  detail: string;
+  links?: { label: string; url: string }[];
+}
+
+const pillars: Pillar[] = [
   {
     icon: Building2,
     title: 'Jeden dom, pełna obsługa',
     desc: 'EXCO Advisory działa ramię w ramię z EXCO Legal i EXCO Audit & Tax. Klient dostaje wszystko w jednym miejscu.',
-    detail: 'Koniec z koordynowaniem kilku firm, rozbieżnymi rekomendacjami i traceniem czasu na tłumaczenie kontekstu każdemu nowemu doradcy. W EXCO prawnicy, finansiści i audytorzy pracują razem od pierwszego dnia projektu.',
+    detail: 'Koniec z koordynowaniem kilku firm i rozbieżnymi rekomendacjami. W EXCO prawnicy, finansiści i audytorzy pracują razem od pierwszego dnia projektu — wspólna strategia, spójna komunikacja, jedna odpowiedzialność.',
+    links: [
+      { label: 'EXCO Legal — kancelaria prawna', url: 'https://exco-legal.vercel.app' },
+      { label: 'EXCO A2A — audyt i podatki', url: 'https://excopl.vercel.app' },
+    ],
   },
   {
     icon: Calculator,
     title: 'Finanse i prawo razem',
     desc: 'Nasze rozwiązania finansowe są od razu weryfikowane pod kątem prawnym i podatkowym.',
-    detail: 'Przy transakcjach M&A, restrukturyzacjach i wycenach aspekty finansowe i prawne są nierozerwalnie powiązane. Każda decyzja finansowa ma swoje implikacje prawne i podatkowe — rozumiemy to i pracujemy w zintegrowanych zespołach, a nie w silosach.',
+    detail: 'Przy transakcjach M&A, restrukturyzacjach i wycenach każda decyzja finansowa ma swoje implikacje prawne i podatkowe. Pracujemy w zintegrowanych zespołach, a nie w silosach — klient dostaje jedną, spójną rekomendację.',
+    links: [
+      { label: 'Dowiedz się więcej o EXCO Legal', url: 'https://exco-legal.vercel.app' },
+    ],
   },
   {
     icon: FileSearch,
     title: 'Fakty, nie szablony',
     desc: 'Nie kopiujemy rozwiązań z innych projektów. Każde zlecenie analizujemy od podstaw.',
-    detail: 'Model finansowy budowany na podstawie realnych danych klienta, nie benchmarków branżowych. Strategia oparta na konkretnej sytuacji firmy, nie na "best practices" z prezentacji. Dlatego nasze rekomendacje są wykonalne, a nie tylko "inspirujące".',
+    detail: 'Model finansowy budowany na realnych danych klienta, nie benchmarkach branżowych. Strategia oparta na konkretnej sytuacji firmy, nie na "best practices" z prezentacji. Dlatego nasze rekomendacje są wykonalne — a nie tylko inspirujące.',
+    links: [
+      { label: 'Zobacz nasze usługi', url: '#uslugi' },
+      { label: 'Umów konsultację', url: '#kontakt' },
+    ],
   },
   {
     icon: Scale,
     title: 'Sieć EXCO International',
     desc: 'Należymy do sieci EXCO International działającej w 27 krajach.',
-    detail: 'Gdy Twój projekt wymaga wiedzy o rynku niemieckim, francuskiej spółce holdingowej lub ukraińskich regulacjach podatkowych — mamy bezpośredni dostęp do ekspertów lokalnych. Bez pośredników, bez długich wyszukiwań, bez ryzyka że ktoś nie zna lokalnych realiów.',
+    detail: 'Gdy projekt wymaga wiedzy o rynku niemieckim, francuskiej spółce holdingowej lub lokalnych regulacjach podatkowych w Europie Środkowej — mamy bezpośredni dostęp do ekspertów lokalnych. Bez pośredników, z pełnym rozumieniem lokalnych realiów.',
+    links: [
+      { label: 'EXCO A2A Polska — strona grupy', url: 'https://excopl.vercel.app' },
+    ],
   },
 ];
 
@@ -83,26 +105,27 @@ export default function WhyExco() {
                     <span className="text-white/30 text-xs ml-2">·</span>
                     <span className="text-white/30 text-xs ml-2">{item.desc}</span>
                   </div>
-                  {item.url !== '#' && <span className="text-white/30 text-xs">↗</span>}
+                  {item.url !== '#' && <ExternalLink size={12} className="text-white/25" />}
                 </motion.a>
               ))}
             </motion.div>
           </div>
 
-          {/* Right — interactive pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Right — interactive pillars with layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
             {pillars.map((p, i) => {
               const isOpen = expanded === i;
               return (
                 <motion.div
                   key={i}
+                  layout
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.5, delay: i * 0.09 }}
-                  whileHover={{ scale: isOpen ? 1 : 1.03, y: isOpen ? 0 : -4 }}
+                  transition={{ layout: { duration: 0.3, ease: 'easeInOut' }, duration: 0.5, delay: i * 0.09 }}
+                  whileHover={!isOpen ? { scale: 1.03, y: -4 } : {}}
                   onClick={() => setExpanded(isOpen ? null : i)}
-                  className={`rounded-xl border cursor-pointer overflow-hidden transition-all duration-300 ${
+                  className={`rounded-xl border cursor-pointer transition-colors duration-300 ${
                     isOpen
                       ? 'border-[#C9A84C]/40 bg-white/8 shadow-lg shadow-black/20'
                       : 'border-white/8 bg-white/5 hover:border-[#C9A84C]/25 hover:bg-white/8'
@@ -130,15 +153,30 @@ export default function WhyExco() {
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.28, ease: 'easeInOut' }}
-                        className="overflow-hidden"
+                        key="pillar-detail"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
                       >
-                        <p className="px-5 pb-5 text-white/55 text-xs leading-relaxed border-t border-white/8 pt-4">
-                          {p.detail}
-                        </p>
+                        <div className="px-5 pb-5 border-t border-white/8 pt-4">
+                          <p className="text-white/55 text-xs leading-relaxed mb-4">{p.detail}</p>
+                          {p.links && p.links.length > 0 && (
+                            <div className="space-y-1.5">
+                              {p.links.map((link, j) => (
+                                <a
+                                  key={j}
+                                  href={link.url}
+                                  onClick={e => e.stopPropagation()}
+                                  className="flex items-center gap-1.5 text-[#C9A84C] text-xs hover:text-[#E2C77A] transition-colors"
+                                >
+                                  <ExternalLink size={10} className="shrink-0" />
+                                  {link.label}
+                                </a>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -146,6 +184,7 @@ export default function WhyExco() {
               );
             })}
           </div>
+
         </div>
       </div>
     </section>
