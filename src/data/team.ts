@@ -6,8 +6,8 @@ export interface TeamMember {
   bio: string;
   photo: string;
   email?: string;
-  linkedin?: string;
   expertise: string[];
+  group: 'advisory' | 'board';
 }
 
 export const team: TeamMember[] = [
@@ -20,6 +20,7 @@ export const team: TeamMember[] = [
     photo: '/photos/tomasz.jpg',
     email: 'tomasz.fordymacki@exco.pl',
     expertise: ['Doradztwo strategiczne', 'Transakcje M&A', 'Pozyskiwanie finansowania'],
+    group: 'advisory',
   },
   {
     id: 'agnieszka-janeczek',
@@ -30,6 +31,7 @@ export const team: TeamMember[] = [
     photo: '/photos/agnieszka.jpg',
     email: 'agnieszka.janeczek@exco.pl',
     expertise: ['Restrukturyzacje', 'Modelowanie finansowe', 'Optymalizacja procesów'],
+    group: 'advisory',
   },
   {
     id: 'piotr-grzeszczyk',
@@ -40,5 +42,28 @@ export const team: TeamMember[] = [
     photo: '/photos/piotr.jpg',
     email: 'piotr.grzeszczyk@exco.pl',
     expertise: ['Wyceny przedsiębiorstw', 'Due diligence', 'Analiza rynku'],
+    group: 'advisory',
+  },
+  {
+    id: 'raphael-vieuxmaire',
+    name: 'Raphaël Vieuxmaire',
+    title: 'Członek Zarządu EXCO A2A Polska',
+    role: 'Partner Zarządzający',
+    bio: 'Współzałożyciel i partner zarządzający EXCO A2A Polska. Od ponad 20 lat kieruje rozwojem grupy EXCO w Polsce, odpowiadając za strategię, relacje z klientami kluczowymi oraz ekspansję sieci EXCO International. Ekspert w zakresie zarządzania organizacjami doradczymi i budowania długoterminowych partnerstw biznesowych.',
+    photo: '/photos/raphael.jpg',
+    email: 'raphael.vieuxmaire@exco.pl',
+    expertise: ['Strategia grupy', 'Zarządzanie organizacją', 'Relacje korporacyjne'],
+    group: 'board',
+  },
+  {
+    id: 'laurent-le-pajolec',
+    name: 'Laurent Le Pajolec',
+    title: 'Członek Zarządu EXCO A2A Polska',
+    role: 'Partner Zarządzający',
+    bio: 'Partner zarządzający EXCO A2A Polska z wieloletnim doświadczeniem w audycie i doradztwie dla klientów korporacyjnych i private equity. Odpowiada za standardy jakości i relacje z największymi klientami grupy. Aktywnie angażuje się w projekty transgraniczne w ramach sieci EXCO International.',
+    photo: '/photos/laurent.jpg',
+    email: 'laurent.lepajolec@exco.pl',
+    expertise: ['Audyt korporacyjny', 'Private equity', 'Projekty transgraniczne'],
+    group: 'board',
   },
 ];
