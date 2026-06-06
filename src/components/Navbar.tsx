@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useLangContext } from '../LangContext';
+import { langMeta, translations, type Lang } from '../translations';
 
-const links = [
-  { href: '#uslugi', label: 'Usługi' },
-  { href: '#dlaczego', label: 'Dlaczego EXCO' },
-  { href: '#branże', label: 'Dla kogo' },
-  { href: '#zespol', label: 'Zespół' },
-  { href: '#liczby', label: 'O nas' },
-  { href: '#kontakt', label: 'Kontakt' },
-];
+const LANGS: Lang[] = ['pl', 'en', 'fr', 'es', 'de', 'it', 'jp', 'cn'];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { lang, setLang } = useLangContext();
+  const t = translations[lang];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -21,13 +18,47 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const links = [
+    { href: '#uslugi', label: t.nav.services },
+    { href: '#dlaczego', label: t.nav.why },
+    { href: '#branże', label: t.nav.industries },
+    { href: '#zespol', label: t.nav.team },
+    { href: '#liczby', label: t.nav.numbers },
+    { href: '#kontakt', label: t.nav.contact },
+  ];
+
   return (
     <>
+      {/* ── Language strip ── */}
+      <div className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-end gap-0.5 px-4 py-1.5 bg-[#071E14]/90 backdrop-blur-sm border-b border-[#C9A84C]/10">
+        {LANGS.map(l => {
+          const meta = langMeta[l];
+          const active = lang === l;
+          return (
+            <motion.button
+              key={l}
+              onClick={() => setLang(l)}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.92 }}
+              className={`flex items-center gap-1 px-2.5 py-0.5 rounded-sm text-[11px] font-semibold tracking-wider transition-colors duration-150 cursor-pointer ${
+                active
+                  ? 'bg-[#C9A84C] text-[#0A2E1E]'
+                  : 'text-white/40 hover:text-white/70 hover:bg-white/8'
+              }`}
+            >
+              <span className="text-[13px] leading-none">{meta.flag}</span>
+              <span>{meta.label}</span>
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* ── Main header ── */}
       <motion.header
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-[34px] left-0 right-0 z-50 transition-all duration-300 ${
           scrolled ? 'bg-[#0A2E1E]/97 backdrop-blur-md shadow-lg shadow-black/20' : 'bg-transparent'
         }`}
       >
@@ -63,7 +94,7 @@ export default function Navbar() {
               href="#kontakt"
               className="px-5 py-2 rounded-sm bg-[#C9A84C] text-[#0A2E1E] text-sm font-semibold tracking-wide hover:bg-[#E2C77A] transition-colors duration-200"
             >
-              Umów konsultację
+              {t.nav.cta}
             </a>
           </div>
 
@@ -86,7 +117,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-[#0A2E1E] border-t border-[#C9A84C]/20 py-4 px-6 md:hidden"
+            className="fixed top-[calc(34px+64px)] left-0 right-0 z-40 bg-[#0A2E1E] border-t border-[#C9A84C]/20 py-4 px-6 md:hidden"
           >
             {links.map(l => (
               <a
@@ -103,7 +134,7 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className="block mt-4 text-center px-5 py-3 bg-[#C9A84C] text-[#0A2E1E] font-semibold rounded-sm text-sm"
             >
-              Umów konsultację
+              {t.nav.cta}
             </a>
           </motion.div>
         )}
