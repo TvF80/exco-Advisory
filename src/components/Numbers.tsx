@@ -80,7 +80,7 @@ export default function Numbers() {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
           {stats.map((s, i) => (
             <motion.div
               key={i}
@@ -88,7 +88,8 @@ export default function Numbers() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="text-center md:text-left"
+              whileHover={{ scale: 1.04, y: -4 }}
+              className="text-center md:text-left p-6 rounded-xl border border-white/6 bg-white/3 hover:border-[#C9A84C]/25 hover:bg-white/6 cursor-default transition-colors duration-300"
             >
               <div className="font-serif text-5xl md:text-6xl font-bold text-[#C9A84C] leading-none mb-1">
                 <AnimatedNumber target={s.value} suffix={s.suffix} />

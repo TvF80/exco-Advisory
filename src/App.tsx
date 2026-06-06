@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import MouseGlow from './components/MouseGlow';
 import Services from './components/Services';
 import WhyExco from './components/WhyExco';
 import Industries from './components/Industries';
@@ -26,6 +27,7 @@ export default function App() {
 
   return (
     <>
+      <MouseGlow />
       {/* scroll progress bar */}
       <div className="fixed top-0 left-0 right-0 h-0.5 z-[100] bg-[#0A2E1E]/20">
         <motion.div

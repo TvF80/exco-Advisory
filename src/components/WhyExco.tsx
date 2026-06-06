@@ -1,128 +1,150 @@
-import { motion } from 'framer-motion';
-import { Scale, Calculator, FileSearch, Building2 } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Scale, Calculator, FileSearch, Building2, ChevronDown } from 'lucide-react';
 
 const pillars = [
   {
     icon: Building2,
     title: 'Jeden dom, pełna obsługa',
-    desc: 'EXCO Advisory działa ramię w ramię z EXCO Legal i EXCO Audit & Tax. Klient dostaje wszystko w jednym miejscu — bez koordynacji kilku firm i rozbieżnych rekomendacji.',
+    desc: 'EXCO Advisory działa ramię w ramię z EXCO Legal i EXCO Audit & Tax. Klient dostaje wszystko w jednym miejscu.',
+    detail: 'Koniec z koordynowaniem kilku firm, rozbieżnymi rekomendacjami i traceniem czasu na tłumaczenie kontekstu każdemu nowemu doradcy. W EXCO prawnicy, finansiści i audytorzy pracują razem od pierwszego dnia projektu.',
   },
   {
     icon: Calculator,
     title: 'Finanse i prawo razem',
-    desc: 'Nasze rozwiązania finansowe są od razu weryfikowane pod kątem prawnym i podatkowym. To realna przewaga przy transakcjach, restrukturyzacjach i wycenach.',
+    desc: 'Nasze rozwiązania finansowe są od razu weryfikowane pod kątem prawnym i podatkowym.',
+    detail: 'Przy transakcjach M&A, restrukturyzacjach i wycenach aspekty finansowe i prawne są nierozerwalnie powiązane. Każda decyzja finansowa ma swoje implikacje prawne i podatkowe — rozumiemy to i pracujemy w zintegrowanych zespołach, a nie w silosach.',
   },
   {
     icon: FileSearch,
     title: 'Fakty, nie szablony',
-    desc: 'Nie kopiujemy rozwiązań z innych projektów. Każde zlecenie analizujemy od podstaw — model finansowy, branżę, sytuację klienta i jego cele.',
+    desc: 'Nie kopiujemy rozwiązań z innych projektów. Każde zlecenie analizujemy od podstaw.',
+    detail: 'Model finansowy budowany na podstawie realnych danych klienta, nie benchmarków branżowych. Strategia oparta na konkretnej sytuacji firmy, nie na "best practices" z prezentacji. Dlatego nasze rekomendacje są wykonalne, a nie tylko "inspirujące".',
   },
   {
     icon: Scale,
     title: 'Sieć EXCO International',
-    desc: 'Należymy do sieci EXCO International działającej w 27 krajach. Projekty transgraniczne, due diligence zagranicznych podmiotów, ekspansja zagraniczna — mamy zasięg i zasoby.',
+    desc: 'Należymy do sieci EXCO International działającej w 27 krajach.',
+    detail: 'Gdy Twój projekt wymaga wiedzy o rynku niemieckim, francuskiej spółce holdingowej lub ukraińskich regulacjach podatkowych — mamy bezpośredni dostęp do ekspertów lokalnych. Bez pośredników, bez długich wyszukiwań, bez ryzyka że ktoś nie zna lokalnych realiów.',
   },
 ];
 
 export default function WhyExco() {
+  const [expanded, setExpanded] = useState<number | null>(null);
+
   return (
     <section id="dlaczego" className="bg-[#0A2E1E] py-28 relative overflow-hidden">
-      {/* decorative element */}
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[#C9A84C]/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#1A5233]/60 blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left: text */}
+
+          {/* Left */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-3 mb-5"
-            >
+            <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="flex items-center gap-3 mb-5">
               <div className="w-8 h-px bg-[#C9A84C]" />
               <span className="text-[#C9A84C] text-xs font-semibold tracking-[0.2em] uppercase">Dlaczego EXCO</span>
             </motion.div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="font-serif text-4xl md:text-5xl font-bold text-white leading-tight mb-6"
-            >
-              Siła grupy EXCO
-              <br />
-              <span className="text-[#C9A84C]">to Twoja przewaga</span>
+              className="font-serif text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+              Siła grupy EXCO<br /><span className="text-[#C9A84C]">to Twoja przewaga</span>
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.15 }}
-              className="text-white/60 text-base leading-relaxed mb-8"
-            >
+            <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: 0.15 }} className="text-white/60 text-base leading-relaxed mb-8">
               Większość firm doradczych specjalizuje się w jednej dziedzinie. EXCO jest wyjątkiem.
               Pod jednym dachem łączymy finanse, prawo i audyt — bo najważniejsze decyzje
               biznesowe zawsze leżą na styku tych obszarów.
             </motion.p>
 
-            {/* EXCO Group links */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.25 }}
-              className="space-y-3"
-            >
+            <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              transition={{ delay: 0.25 }} className="space-y-3">
               <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Rodzina EXCO w Polsce</p>
               {[
                 { name: 'EXCO A2A Polska', desc: 'Audyt i podatki', url: 'https://excopl.vercel.app' },
                 { name: 'EXCO Legal', desc: 'Kancelaria prawna', url: 'https://exco-legal.vercel.app' },
                 { name: 'EXCO Advisory', desc: 'Doradztwo finansowe', url: '#' },
               ].map((item, i) => (
-                <a
+                <motion.a
                   key={i}
                   href={item.url}
+                  whileHover={{ x: 4 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className={`flex items-center justify-between px-4 py-3 rounded-sm border transition-colors duration-200 ${
                     item.url === '#'
                       ? 'border-[#C9A84C]/40 bg-[#C9A84C]/10'
-                      : 'border-white/10 hover:border-white/20'
+                      : 'border-white/10 hover:border-white/25 hover:bg-white/5'
                   }`}
                 >
                   <div>
-                    <span className={`text-sm font-semibold ${item.url === '#' ? 'text-[#C9A84C]' : 'text-white/80'}`}>
-                      {item.name}
-                    </span>
-                    <span className="text-white/40 text-xs ml-2">·</span>
-                    <span className="text-white/40 text-xs ml-2">{item.desc}</span>
+                    <span className={`text-sm font-semibold ${item.url === '#' ? 'text-[#C9A84C]' : 'text-white/80'}`}>{item.name}</span>
+                    <span className="text-white/30 text-xs ml-2">·</span>
+                    <span className="text-white/30 text-xs ml-2">{item.desc}</span>
                   </div>
-                  {item.url !== '#' && (
-                    <span className="text-white/30 text-xs">↗</span>
-                  )}
-                </a>
+                  {item.url !== '#' && <span className="text-white/30 text-xs">↗</span>}
+                </motion.a>
               ))}
             </motion.div>
           </div>
 
-          {/* Right: pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {pillars.map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: i * 0.09 }}
-                className="bg-white/5 rounded-lg p-6 border border-white/8 hover:border-[#C9A84C]/30 transition-colors duration-300"
-              >
-                <div className="w-10 h-10 rounded-lg bg-[#C9A84C]/15 flex items-center justify-center mb-4">
-                  <p.icon size={20} className="text-[#C9A84C]" />
-                </div>
-                <h4 className="font-serif text-base font-bold text-white mb-2">{p.title}</h4>
-                <p className="text-white/50 text-sm leading-relaxed">{p.desc}</p>
-              </motion.div>
-            ))}
+          {/* Right — interactive pillars */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {pillars.map((p, i) => {
+              const isOpen = expanded === i;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: i * 0.09 }}
+                  whileHover={{ scale: isOpen ? 1 : 1.03, y: isOpen ? 0 : -4 }}
+                  onClick={() => setExpanded(isOpen ? null : i)}
+                  className={`rounded-xl border cursor-pointer overflow-hidden transition-all duration-300 ${
+                    isOpen
+                      ? 'border-[#C9A84C]/40 bg-white/8 shadow-lg shadow-black/20'
+                      : 'border-white/8 bg-white/5 hover:border-[#C9A84C]/25 hover:bg-white/8'
+                  }`}
+                >
+                  <div className="p-5">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300 ${
+                        isOpen ? 'bg-[#C9A84C]/25' : 'bg-[#C9A84C]/15'
+                      }`}>
+                        <p.icon size={18} className="text-[#C9A84C]" />
+                      </div>
+                      <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.22 }}
+                        className="text-[#C9A84C]/30 mt-1"
+                      >
+                        <ChevronDown size={14} />
+                      </motion.div>
+                    </div>
+                    <h4 className="font-serif text-sm font-bold text-white mb-1.5">{p.title}</h4>
+                    <p className="text-white/50 text-xs leading-relaxed">{p.desc}</p>
+                  </div>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.28, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-5 pb-5 text-white/55 text-xs leading-relaxed border-t border-white/8 pt-4">
+                          {p.detail}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
