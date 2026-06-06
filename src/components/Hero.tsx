@@ -41,7 +41,7 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] mb-6"
           >
-            EXCO
+            EXCO Finance
             <br />
             <span className="text-[#C9A84C]">Advisory</span>
           </motion.h1>
